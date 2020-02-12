@@ -1,5 +1,5 @@
 “”“use CrossEntropy Loss as the cost loss for class every pixel,
-	and use miou as the metrics to evaluate the performance of the model”“”
+   and use miou as the metrics to evaluate the performance of the model”“”
 
 
 
