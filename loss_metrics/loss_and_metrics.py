@@ -1,6 +1,5 @@
-“”“use CrossEntropy Loss as the cost loss for class every pixel,
-   and use miou as the metrics to evaluate the performance of the model”“”
-
+"""use CrossEntropy Loss as the cost loss for class every pixel,
+   and use miou as the metrics to evaluate the performance of the model"""
 
 
 import torch
@@ -9,22 +8,20 @@ import numpy as np
 import torch.nn.functional as F
 
 
-class MySoftmaxCrossEntropyLoss(nn.Module):
-    def __init__(self, num_class):
-        super(MySoftmaxCrossEntropyLoss, self).__init__()
-        self.num_class = num_class
+class Loss(nn.Module):
+    def __init__(self, num_classes):
+        super(Loss, self).__init__()
+        self.num_classes = num_classes
 
     def forward(self, input, target):
-		# convert to [N, C]
         if input.dim() > 2:
             input = input.view(input.size(0), input.size(1), -1)
             input = input.transpose(1, 2)
-            input = input.contiguous().view(-1, self.num_class)
-		# convert to [N]
+            input = input.contiguous().view(-1, self.num_classes)
         target = target.view(-1)
         return nn.CrossEntropyLoss(reduction='mean')(input, target)
-		
-		
+
+
 def compute_iou(pred, gt, result):
     pred = pred.numpy()
     gt = gt.numpy()
