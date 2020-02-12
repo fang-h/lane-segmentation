@@ -1,3 +1,6 @@
+"""a implementation of DeepLabV3+, the encoder backbone can be a modified Xception or MobileNetV2"""
+
+
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -87,14 +90,3 @@ class Deeplab_v3p(nn.Module):
         feature = self.upsample_cat(concat_feature)
         logits = self.conv_logits(feature)
         return logits
-
-
-
-
-
-
-
-
-
-
-

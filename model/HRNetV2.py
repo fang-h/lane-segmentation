@@ -1,6 +1,5 @@
-"""we use HRNetV2 for lane segmentation, this implemention is adopted in the follow links:
+"""we use HRNetV2 for lane segmentation, this implementation is adopted in the follow links:
    https://github.com/HRNet/HRNet-Semantic-Segmentation"""
-
 
 
 import os
@@ -11,7 +10,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-
 
 
 BN_MOMENTUM = 0.1  # nn.BatchNorm2d's default
@@ -487,50 +485,4 @@ class SemanticHighResolutionNet(nn.Module):
         x = nn.Upsample(scale_factor=4, mode='bilinear')(x)
 
         return x
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
