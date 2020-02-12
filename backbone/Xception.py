@@ -1,15 +1,13 @@
 """this Xception implemention is a modify version, we modify the original version as backbone of DeeplabV3+"""
 
 
-
 import torch
 from torch import nn
 
 
-
 class SeparableConv(nn.Module):
-	“”“make Separable Convlution module, we don't use non_linearity between depth convlution and point-wise convolution”“”
     def __init__(self, in_channel, out_channel):
+        """make Separable Convlution module, we don't use non_linearity between depth convlution and point-wise convolution"""
         super(SeparableConv, self).__init__()
         self.depthconv = nn.Conv2d(in_channel, in_channel, kernel_size=3, padding=1, groups=in_channel, bias=False)
         self.pointwiseconv = nn.Conv2d(in_channel, out_channel, kernel_size=1, bias=False)
@@ -93,7 +91,7 @@ class Middle_flow(nn.Module):
         self.relu = nn.ReLU6(inplace=True)
 
     def forward(self, x):
-		"""we reduce the blocks for prevent overfit """
+        # reduce the blocks for prevent overfit
         for i in range(2):
             shortcut = x
             for j in range(3):
@@ -136,6 +134,4 @@ class Xception(nn.Module):
         x = self.middle_flow(x)
         feature_16 = self.exit_flow(x)
         return feature_4, feature_16
-
-
 

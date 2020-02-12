@@ -1,15 +1,14 @@
-"""we create MoBileNetV1 as the original, and modify MobileNetV2 as the backbone of DeeplabV3+"""
+"""we create MobileNetV1 as the original, and modify MobileNetV2 as the backbone of DeeplabV3+"""
 
 
 import torch.nn as nn
 import torch
 
 
-
 class SeperableConv(nn.Module):
-	"""in MobileNetV1, add BatchNormlization and relu between depth_conv and pointwise_conv"""
 
     def __init__(self, in_channel, out_channel, s):
+        """in MobileNetV1, add BatchNormalization and relu between depth_conv and point-wise_conv"""
         super(SeperableConv, self).__init__()
         self.depth_conv = nn.Conv2d(in_channel, in_channel, kernel_size=3, stride=s, padding=1, groups=in_channel)
         self.bn1 = nn.BatchNorm2d(in_channel)
@@ -118,11 +117,10 @@ class MobileNetV2(nn.Module):
         self.layer3 = make_layer([3, 24, 32, 2, 6], "V2")
         self.layer4 = make_layer([4, 32, 64, 2, 6], "V2")
         self.layer5 = make_layer([3, 64, 96, 1, 6], "V2")
-        # modify for deeplab_v3p
+        # modify for DeeplabV3+
         self.conv2 = nn.Conv2d(in_channels=96, out_channels=1024, kernel_size=1)
         self.bn2 = nn.BatchNorm2d(1024)
         self.relu2 = nn.ReLU6(inplace=True)
-        
 
     def forward(self, input):
         x = self.conv1(input)  # s = 2
@@ -139,15 +137,3 @@ class MobileNetV2(nn.Module):
         feature_16 = self.relu2(x)
         
         return feature_4, feature_16
-
-
-
-
-
-
-
-
-
-
-
-
