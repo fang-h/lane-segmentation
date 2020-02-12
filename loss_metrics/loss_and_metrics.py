@@ -14,10 +14,12 @@ class Loss(nn.Module):
         self.num_classes = num_classes
 
     def forward(self, input, target):
+        # convert to [N, C]
         if input.dim() > 2:
             input = input.view(input.size(0), input.size(1), -1)
             input = input.transpose(1, 2)
             input = input.contiguous().view(-1, self.num_classes)
+        # convert to [N]
         target = target.view(-1)
         return nn.CrossEntropyLoss(reduction='mean')(input, target)
 
