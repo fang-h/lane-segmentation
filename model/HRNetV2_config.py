@@ -1,7 +1,6 @@
 “”“some settings for HRNetV2”“”
 
 
-
 class HRNetV2Config(object):
     config = {}
 
