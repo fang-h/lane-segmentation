@@ -1,4 +1,4 @@
-"""a implementation of DeepLabV3+, the encoder backbone can be a modified Xception or MobileNetV2"""
+"""a implementation of DeeplabV3p, the encoder backbone can be a modified Xception or MobileNetV2"""
 
 
 import torch
@@ -61,9 +61,9 @@ class Encoder(nn.Module):
         return feature_4, feature_aspp
 
 
-class Deeplab_v3p(nn.Module):
+class DeeplabV3p(nn.Module):
     def __init__(self, num_class, backbone='Xception'):
-        super(Deeplab_v3p, self).__init__()
+        super(DeeplabV3p, self).__init__()
         self.num_class = num_class
         self.encoder = Encoder(backbone=backbone)
         self.upsample_assp = nn.Upsample(scale_factor=4, mode='bilinear')

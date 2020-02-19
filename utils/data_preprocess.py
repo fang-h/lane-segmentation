@@ -43,15 +43,25 @@ def get_h_value(csv_file, ratio):
             return i
 
 
-def crop_resize_data(image, label, h_value, size_to_resize):
-    # original image size is (1710, 3384, 3)
+def crop_resize_data(image, label, h_value=723, size_to_resize=(1536, 448)):
+
+    """"int the train and val dataset, the original size is (1710, 3384, 3), we select h_value = 723 which save
+        99.99% lane lines, after crop, image_size is(987, 3384), resize to (768, 224), (1536, 448)"""
     image = image[h_value:, :, :]
-    label = label[h_value:, :, :]
+    label = label[h_value:, :]
     image = cv2.resize(image, size_to_resize, interpolation=cv2.INTER_LINEAR)
     label = cv2.resize(label, size_to_resize, interpolation=cv2.INTER_NEAREST)  # not generate new label value
     return image, label
 
 
 def encode_label(label):
-    """"""
-    return label
+    """see more details in http://apolloscape.auto/lane_segmentation.html"""
+    encode_label = np.zeros((label.shape[0], label.shape[1]))
+    id_train = {0: [0, 249, 255, 213, 206, 207, 211, 208, 216, 215, 218, 219, 232, 202,
+                    231, 230, 228, 229, 233, 212, 223],
+                1: [200, 204, 209], 2: [201, 203], 3: [217], 4: [210], 5: [214],
+                6: [220, 221, 222, 224, 225, 226], 7: [205, 227, 250]}
+    for i in range(8):
+        for item in id_train[i]:
+            encode_label[label == item] = i
+    return encode_label

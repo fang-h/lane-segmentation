@@ -485,4 +485,3 @@ class SemanticHighResolutionNet(nn.Module):
         x = nn.Upsample(scale_factor=4, mode='bilinear')(x)
 
         return x
-

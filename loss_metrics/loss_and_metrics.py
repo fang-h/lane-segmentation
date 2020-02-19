@@ -2,10 +2,8 @@
    and use miou as the metrics to evaluate the performance of the model"""
 
 
-import torch
 import torch.nn as nn
 import numpy as np
-import torch.nn.functional as F
 
 
 class Loss(nn.Module):
@@ -30,10 +28,10 @@ def compute_iou(pred, gt, result):
     for i in range(8):
         single_gt = gt == i
         single_pred = pred == i
-        temp_tp = np.sum(single_gt * single_pred)  # compute the intersection
-        temp_ta = np.sum(single_pred) + np.sum(single_gt) - temp_tp  # compute the union
-        result["TP"][i] += temp_tp
-        result["TA"][i] += temp_ta
+        temp1 = np.sum(single_gt * single_pred)  # compute the intersection
+        temp2 = np.sum(single_pred) + np.sum(single_gt) - temp1  # compute the union
+        result["intersection"][i] += temp1
+        result["union"][i] += temp2
     return result
 
 
