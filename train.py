@@ -99,7 +99,6 @@ def val_epoch(model, data_loader, config, val_file, epoch):
     model.eval()
     total_loss = 0
     result = {"intersection": {i: 0 for i in range(8)}, "union": {i: 0 for i in range(8)}}
-    # result = {"TP": {i: 0 for i in range(8)}, "TA": {i: 0 for i in range(8)}}
     data_process = tqdm(data_loader)
     for batch_data in data_process:
         image, label = batch_data['image'], batch_data['label']
@@ -146,8 +145,6 @@ def train(model_name, model_path, train_csv_file, val_csv_file, start_epoch):
         model = torch.nn.DataParallel(model, device_ids=GPU)
 
     if model_path is not None:
-        # model_dict = torch.load(os.path.join(save_path, model_path)).module.state_dict()
-        # model.module.load_state_dict(model_dict)
         model_dict = torch.load(os.path.join(save_path, model_path))
         model.load_state_dict(model_dict)
 
@@ -175,12 +172,7 @@ def train(model_name, model_path, train_csv_file, val_csv_file, start_epoch):
 
 
 if __name__ == '__main__':
-    train("HRNetV2", model_path='model_high_24.pth', train_csv_file='train.csv', val_csv_file='val.csv',
-          start_epoch=25)
-    # train("Xception_DeeplabV3p", model_path='model_high_6.pth', train_csv_file='train.csv', val_csv_file='val.csv',
-    #       start_epoch=7)
-    # train("MobileNetV2_DeeplabV3p", model_path='model_high_18.pth', train_csv_file='train.csv', val_csv_file='val.csv',
-    #       start_epoch=19)
+    train()
 
 
 
