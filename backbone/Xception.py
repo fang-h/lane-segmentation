@@ -86,18 +86,16 @@ class Entry_flow(nn.Module):
 class Middle_flow(nn.Module):
     def __init__(self):
         super(Middle_flow, self).__init__()
-        self.separable_conv = SeparableConv(728, 728)
-        self.bn = nn.BatchNorm2d(728)
-        self.relu = nn.ReLU6(inplace=True)
+        self.block = nn.ModuleList()
+        for i in range(16):
+            self.block.append(nn.Sequential(SeparableConv(728, 728),
+                                            nn.BatchNorm2d(728),
+                                            nn.ReLU6(inplace=True)))
 
     def forward(self, x):
-        # reduce the blocks for prevent overfit
-        for i in range(2):
+        for i in range(16):
             shortcut = x
-            for j in range(3):
-                x = self.separable_conv(x)
-                x = self.bn(x)
-                x = self.relu(x)
+            x = self.block[i](x)
             x = x + shortcut
         return x
 
